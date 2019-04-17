@@ -57,6 +57,7 @@
 			<SCRIPT src="/resources/js/likeAndBookSubmit.js"></SCRIPT>
 			<SCRIPT src="/resources/js/postStory.js"></SCRIPT>
 			<SCRIPT src="/resources/js/postComment.js"></SCRIPT>
+			<SCRIPT src="/resources/js/personalHomepage.js"></SCRIPT>
 			<!-- End 社群相關功能 -->
 			<!-- Begin emoji-picker JavaScript -->
 			<SCRIPT src="/resources/emoji/js/config.js"></SCRIPT>
@@ -437,13 +438,15 @@
 				<DIV>
 					<DIV class="d-flex justify-content-between align-items-center">
 						<DIV class="btn-group">
+							<!--分享 按扭-->
 							<FORM>
 								<BUTTON type="button" class="btn btn-lg btn-light">
 									<I CLass="fas fa-share-alt"/>
 								</BUTTON>
 							</FORM>
-							<FORM>
-								<BUTTON type="button" class="btn btn-lg btn-light" data-toggle="collapse" aria-controls="collapseExample" aria-expanded="false">
+							<!--留言 按扭-->
+							<FORM id="aria">
+								<BUTTON  type="button" class="btn btn-lg btn-light" onclick="myclike()" data-toggle="collapse" aria-controls="collapseExample" aria-expanded="false">
 									<xsl:attribute name="data-target">
 										#<xsl:value-of select="generate-id(@id)"/>
 										<!--#a<xsl:value-of select="id"/>-->
@@ -455,6 +458,7 @@
 								<I CLass="far fa-heart"/>
 								<xsl:value-of select="emotions"/>
 							</BUTTON>-->
+							<!--点赞 按扭-->
 							<FORM action="/like/" method="POST" class="mode">
 								<INPUT name="story" type="hidden" value="{@id}"/>
 								<INPUT name="who" type="hidden" value="{/document/@me}"/>
@@ -463,6 +467,7 @@
 								</BUTTON>
 								<!--<I CLass="{like/emotion[selected]}"/>-->
 							</FORM>
+							<!--收藏 按钮-->
 							<FORM action="/bookmark/" method="POST" class="mode">
 								<INPUT name="story" type="hidden" value="{@id}"/>
 								<INPUT name="who" type="hidden" value="{/document/@me}"/>
@@ -478,6 +483,7 @@
 							<!--a<xsl:value-of select="id"/>-->
 						</xsl:attribute>
 						<HR/>
+						<!--发送评论-->
 						<FORM action="/postComment/" method="PUT" class="mode" style="margin-bottom:-10px">
 							<P CLass="lead emoji-picker-container">
 								<INPUT type="hidden" name="who" value="{/document/@personnelHref}"/>
@@ -527,11 +533,10 @@
 	<xsl:template match="comment">
 		<UL class="topic-comm" style="clear:both">
 			<LI>
-				<DIV class="d-inline">
-					<A CLass="text-left text-dark" title="{who/@nickname}">
-						<xsl:attribute name="href">
-							<xsl:value-of select="who/@nickname"/>
-						</xsl:attribute>
+				<DIV class="d-inline" >
+					<!--这里植入评论者头像-->
+					<A class="text-left text-dark ioc"   valueId="{who/@id}"   title="{who/@nickname}"  href="/Personalpage?id={who/@id}">
+						<img  class="ioc"  imgvalueId="{who/@id}"   src="" />
 						<xsl:value-of select="who/@nickname"/>
 					</A>
 				</DIV>

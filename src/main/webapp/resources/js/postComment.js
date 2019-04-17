@@ -3,6 +3,7 @@ $(document).ready(function () {
 	$('FORM[method="PUT"]').submit(function (e) {
 		e.preventDefault();
 		var storyId = $(this).children().children('INPUT[name="storyId"]').val();
+		//ajax请求
 		$.post($(this).attr('action'), $(this).serialize(), function (data) {
 			if (data === null || data === "")
 			{
@@ -23,7 +24,8 @@ $(document).ready(function () {
 			//alert(data);
 			//[{who: 'pc', content: '這是一則留言'}, {who: 'chiah', content: '這是第二則留言'}];
 
-			$.each($.parseJSON(data), function (idx, obj) {
+			$.each($.parseJSON(data), function (idx, obj) {//遍历json对象 
+				//声明标签
 				var ulElement = document.createElement('UL'), liElement = document.createElement('LI'), divElement = document.createElement('DIV'),
 					aElement = document.createElement('A'), spanElement = document.createElement('SPAN');
 				$(liElement).append($(divElement).attr({'class': 'd-inline'}).append($(aElement).attr({

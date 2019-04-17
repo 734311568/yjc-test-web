@@ -68,23 +68,35 @@ public class HelloWorldController {
 	public HelloWorldController(final String siteName) {
 		this.siteName = siteName;
 	}
+
 	/**
-	 *  访问个人主页
-	 * @param response
-	 * @param request
+	 * 访问个人主页
+	 *
+	 * @param id
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/Personalpage")
-	public ModelAndView getPersonalpage(HttpServletResponse response, HttpServletRequest request) throws Exception {
-		
-		ModelAndView model = new ModelAndView("Personalpage");
-		model.addObject("xmlSource", apiService.getHomepage());
+	public ModelAndView getPersonalpage(@RequestParam(value = "id", required = true, defaultValue = "3") Integer id) throws Exception {
 
+		ModelAndView model = new ModelAndView("Personalpage");
+		model.addObject("xmlSource", apiService.getHomepage(id));
+		System.out.println("id\t" + id);
 		return model;
-		
+
 	}
 
+	/**
+	 * 传前台图片的路径字符串
+	 * @param id
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/img")
+	public String getString(@RequestParam(value = "id", required = true) Integer id) throws IOException {
+	        System.out.println("id\t"+id);
+		return  apiService.getImg(id);
+	}
 	/**
 	 * 導向登入後頁面
 	 *
@@ -573,19 +585,19 @@ public class HelloWorldController {
 	 * @param request
 	 * @param httpSession
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(value = "/postStory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public String postStory(
-			@RequestParam(required = false) String imgUrls,
-			@RequestParam(required = false) String who,
-			@RequestParam(required = false) String storyContent,
-			HttpSession httpSession) throws Exception {
+		@RequestParam(required = false) String imgUrls,
+		@RequestParam(required = false) String who,
+		@RequestParam(required = false) String storyContent,
+		HttpSession httpSession) throws Exception {
 		if (httpSession.getAttribute("me") == null) {
 			return null;
 		}
 		JSONObject jSONObject = new JSONObject(imgUrls);
-		
+
 		System.out.println("jSONObject = " + jSONObject.toString());
 
 		JSONArray jSONArray = jSONObject.getJSONArray("urls");

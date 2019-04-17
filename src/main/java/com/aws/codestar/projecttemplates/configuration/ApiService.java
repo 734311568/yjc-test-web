@@ -96,14 +96,13 @@ public class ApiService {
 					Element elementOfAuthor = document.createElement("author");
 					elementOfAuthor.setAttribute("id", jSONObjectOfStory.getJSONObject("author").get("id").toString());
 					elementOfAuthor.setAttribute("nickname", jSONObjectOfStory.getJSONObject("author").get("nickname").toString());
-					elementOfAuthor.setAttribute("profileImgUrl",  jSONObjectOfStory.getJSONObject("author").get("profileImgUrl").toString());
+					elementOfAuthor.setAttribute("profileImgUrl", jSONObjectOfStory.getJSONObject("author").get("profileImgUrl").toString());
 					elementOfStory.appendChild(elementOfAuthor);
-					
-					
+
 					Element elementOfContent = document.createElement("content");
 					elementOfContent.appendChild(document.createTextNode(jSONObjectOfStory.get("content").toString()));
 					elementOfStory.appendChild(elementOfContent);
-					
+
 					Element elementOfStoryImages = document.createElement("storyImages");
 					JSONArray jSONArrayOfStoryImages = jSONObjectOfStory.getJSONArray("storyImage");
 					for (int j = 0; j < jSONArrayOfStoryImages.length(); j++) {
@@ -253,7 +252,7 @@ public class ApiService {
 		ArrayList<NameValuePair> pairList = new ArrayList();
 		pairList.add(new BasicNameValuePair(key, userId));
 
-		URIBuilder builder = new URIBuilder(new AuthHttpClient().getHost() + "personnels/search/" + url);
+		URIBuilder builder = new URIBuilder(new AuthHttpClient().getHost() + "personnels/search/" + url);//这里是之间访问呢
 		builder.setParameters(pairList);
 		HttpGet httpGet = new AuthHttpClient().bulidHttpViaURI(builder.build());
 
@@ -467,19 +466,22 @@ public class ApiService {
 		closeableHttpClient.close();
 		return "上傳成功";
 	}
+
 	/**
-	 *  访问个人主页
+	 * 访问个人主页
+	 *
+	 * @param id
 	 * @return
 	 * @throws TransformerConfigurationException
 	 * @throws TransformerException
 	 * @throws IOException
-	 * @throws ParserConfigurationException 
+	 * @throws ParserConfigurationException
 	 */
-	public Document getHomepage() throws TransformerConfigurationException, TransformerException, IOException, ParserConfigurationException {
+	public Document getHomepage(Integer id) throws TransformerConfigurationException, TransformerException, IOException, ParserConfigurationException {
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		Element documentElement = doc.createElement("document");
 		doc.appendChild(documentElement);
-		CloseableHttpResponse response1 = HttpClients.createDefault().execute(new HttpGet("https://redan-api.herokuapp.com/personnels/search/findOneById?id=3"));
+		CloseableHttpResponse response1 = HttpClients.createDefault().execute(new HttpGet("https://redan-api.herokuapp.com/personnels/search/findOneById?id=" + id));
 		HttpEntity entity = response1.getEntity();
 		try {
 			if (null != entity) {
@@ -526,7 +528,7 @@ public class ApiService {
 				Element profileTextElement = doc.createElement("profileText");
 				profileTextElement.appendChild(doc.createTextNode(jsonObjectDataStr.get("profileText").toString()));
 				documentElement.appendChild(profileTextElement);
-				
+
 				//创建cuserStory  第一层
 				JSONArray jsonArrayUserStorys = jsonObjectDataStr.getJSONArray("userStory");
 
@@ -566,5 +568,30 @@ public class ApiService {
 		transformer.transform(domSource, result);
 		System.out.println(writer.toString());
 		return doc;
+	}
+
+	/**
+	 * 返回头像
+	 *
+	 * @param id
+	 * @return
+	 * @throws java.io.IOException
+	 */
+	public String getImg(Integer id) throws IOException {
+		String str = null;
+		CloseableHttpResponse response1 = HttpClients.createDefault().execute(new HttpGet("https://redan-api.herokuapp.com/personnels/search/findOneById?id=" + id));
+		HttpEntity entity = response1.getEntity();
+		
+			if (null != entity) {
+				String getDataStr = EntityUtils.toString(entity, "UTF-8");
+				System.out.println("getDataStr\t" + getDataStr);
+				JSONObject jsonObjectDataStr = new JSONObject(getDataStr);
+				String profileImgUrlValue = jsonObjectDataStr.get("profileImgUrl").toString();
+				str = profileImgUrlValue;
+			}
+		System.out.println("APIservice \t"+str);
+		return str;
+		
+		
 	}
 }
