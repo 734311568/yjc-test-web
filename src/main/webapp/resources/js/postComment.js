@@ -27,12 +27,12 @@ $(document).ready(function () {
 			$.each($.parseJSON(data), function (idx, obj) {//遍历json对象 
 				//声明标签
 				var ulElement = document.createElement('UL'), liElement = document.createElement('LI'), divElement = document.createElement('DIV'),
-					aElement = document.createElement('A'), spanElement = document.createElement('SPAN');
+					aElement = document.createElement('A'), spanElement = document.createElement('SPAN'), imgElement = document.createElement('img');
 				$(liElement).append($(divElement).attr({'class': 'd-inline'}).append($(aElement).attr({
 					'class': 'text-left text-dark',
 					'title': obj.who,
-					'href': obj.who
-				}).text(obj.who + ' ')));
+					'href': '/Personalpage?id=' + obj.whoId
+				}).text(obj.who + ' ')).prepend($(imgElement).attr({'class': 'ioc', 'src': obj.img})));
 				$(liElement).append($(spanElement).attr({'class': 'd-inline'}).text(obj.content));
 
 				$(mydivElement).append($(ulElement).attr({

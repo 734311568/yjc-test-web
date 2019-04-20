@@ -535,8 +535,8 @@
 			<LI>
 				<DIV class="d-inline" >
 					<!--这里植入评论者头像-->
-					<A class="text-left text-dark ioc"   valueId="{who/@id}"   title="{who/@nickname}"  href="/Personalpage?id={who/@id}">
-						<img  class="ioc"  imgvalueId="{who/@id}"   src="" />
+					<A class="text-left text-dark ioc"  whoid="{who/@id}"  title="{who/@nickname}"  href="/Personalpage?id={who/@id}">
+						<img  class="ioc"  imgvalueid="{who/@id}"   src="" />
 						<xsl:value-of select="who/@nickname"/>
 					</A>
 				</DIV>

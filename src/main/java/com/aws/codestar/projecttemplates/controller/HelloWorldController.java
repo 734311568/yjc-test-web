@@ -83,20 +83,21 @@ public class HelloWorldController {
 		model.addObject("xmlSource", apiService.getHomepage(id));
 		System.out.println("id\t" + id);
 		return model;
-
 	}
 
 	/**
 	 * 传前台图片的路径字符串
+	 *
 	 * @param id
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/img")
 	public String getString(@RequestParam(value = "id", required = true) Integer id) throws IOException {
-	        System.out.println("id\t"+id);
-		return  apiService.getImg(id);
+		System.out.println("id\t" + id);
+		return apiService.getImg(id);
 	}
+
 	/**
 	 * 導向登入後頁面
 	 *
@@ -358,6 +359,7 @@ public class HelloWorldController {
 		// story:who=me&story=1687f4ee-d961-4042-bee7-5baeffe6b90c&content=
 		System.out.println(apiService.postComments(story.getContent(), story.getWho(), story.getStoryHref()));
 
+		//https://redan-api.herokuapp.com/stories/1/storyComment/	
 		JSONArray jSONArrayComment = apiService.getStoryComment(story.getStoryId());
 		String[] stringsOfImgurls = new String[jSONArrayComment.length()];
 		JSONArray jSONArray = new JSONArray();
@@ -365,6 +367,9 @@ public class HelloWorldController {
 		for (int i = 0; i < jSONArrayComment.length(); i++) {
 			JSONObject jSONObject = new JSONObject();
 			jSONObject.put("who", jSONArrayComment.getJSONObject(i).get("who").toString());
+			jSONObject.put("whoId", jSONArrayComment.getJSONObject(i).get("whoId").toString());
+			String img = apiService.getImg(Integer.parseInt(jSONArrayComment.getJSONObject(i).get("whoId").toString()));
+			jSONObject.put("img", img);
 			jSONObject.put("content", jSONArrayComment.getJSONObject(i).get("content").toString());
 			jSONArray.put(jSONObject);
 //			stringsOfImgurls[i] = jSONObject;
@@ -405,6 +410,7 @@ public class HelloWorldController {
 	 */
 	@RequestMapping(value = "/bookmark", method = RequestMethod.POST)
 	public String bookmark(Emotion emotion, HttpSession httpSession) throws IOException, ParserConfigurationException {
+		//在会话里面有这个账户情况
 		if (httpSession.getAttribute("me") == null) {
 			return null;
 		}

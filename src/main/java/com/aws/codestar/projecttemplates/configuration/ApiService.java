@@ -102,7 +102,7 @@ public class ApiService {
 					Element elementOfContent = document.createElement("content");
 					elementOfContent.appendChild(document.createTextNode(jSONObjectOfStory.get("content").toString()));
 					elementOfStory.appendChild(elementOfContent);
-
+					
 					Element elementOfStoryImages = document.createElement("storyImages");
 					JSONArray jSONArrayOfStoryImages = jSONObjectOfStory.getJSONArray("storyImage");
 					for (int j = 0; j < jSONArrayOfStoryImages.length(); j++) {
@@ -432,7 +432,6 @@ public class ApiService {
 		httpPost.setEntity(stringEntityOfPersonnel);
 		httpPost.setHeader("Content-type", "application/json");
 		CloseableHttpResponse closeableHttpResponse = closeableHttpClient.execute(httpPost);
-
 		closeableHttpResponse.close();
 		closeableHttpClient.close();
 		return "留言成功";
@@ -581,17 +580,14 @@ public class ApiService {
 		String str = null;
 		CloseableHttpResponse response1 = HttpClients.createDefault().execute(new HttpGet("https://redan-api.herokuapp.com/personnels/search/findOneById?id=" + id));
 		HttpEntity entity = response1.getEntity();
-		
-			if (null != entity) {
-				String getDataStr = EntityUtils.toString(entity, "UTF-8");
-				System.out.println("getDataStr\t" + getDataStr);
-				JSONObject jsonObjectDataStr = new JSONObject(getDataStr);
-				String profileImgUrlValue = jsonObjectDataStr.get("profileImgUrl").toString();
-				str = profileImgUrlValue;
-			}
-		System.out.println("APIservice \t"+str);
+		if (null != entity) {
+			String getDataStr = EntityUtils.toString(entity, "UTF-8");
+			System.out.println("getDataStr\t" + getDataStr);
+			JSONObject jsonObjectDataStr = new JSONObject(getDataStr);
+			String profileImgUrlValue = jsonObjectDataStr.get("profileImgUrl").toString();
+			str = profileImgUrlValue;
+		}
+		System.out.println("APIservice \t" + str);
 		return str;
-		
-		
 	}
 }
