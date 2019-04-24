@@ -53,11 +53,16 @@
 				integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
 				crossorigin="anonymous">
 			</SCRIPT>
+			<!--复制的插件-->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 			<!-- Begin 社群相關功能 -->
 			<SCRIPT src="/resources/js/likeAndBookSubmit.js"></SCRIPT>
 			<SCRIPT src="/resources/js/postStory.js"></SCRIPT>
 			<SCRIPT src="/resources/js/postComment.js"></SCRIPT>
+			<!--留言的显示头像功能-->
 			<SCRIPT src="/resources/js/personalHomepage.js"></SCRIPT>
+			<!--分享功能弹窗复制链接-->
+			<SCRIPT src="/resources/js/share.js"/>
 			<!-- End 社群相關功能 -->
 			<!-- Begin emoji-picker JavaScript -->
 			<SCRIPT src="/resources/emoji/js/config.js"></SCRIPT>
@@ -437,16 +442,35 @@
 				</P>
 				<DIV>
 					<DIV class="d-flex justify-content-between align-items-center">
+						<!--分享的模态框-->
+						<div class="modal" id="mymodal">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										分享
+									</div>
+									<div class="modal-body">
+										<I CLass="fas  fa-share-alt" />
+										<input id="foo" value="http://localhost:8080"/>
+										
+									</div>
+									<div class="modal-footer">
+										<a href="#" class="btn" data-clipboard-target="#foo" data-clipboard-action="copy" alt="Copy to clipboard" data-dismiss="modal">复制</a>	
+									</div>
+								</div>
+							</div>
+						</div>
+						
 						<DIV class="btn-group">
 							<!--分享 按扭-->
-							<FORM>
-								<BUTTON type="button" class="btn btn-lg btn-light">
-									<I CLass="fas fa-share-alt"/>
+							<FORM name="yu">
+								<BUTTON type="button" class="btn btn-lg btn-light" onclick="myclike()">
+									<I CLass="fas fa-share-alt" />
 								</BUTTON>
 							</FORM>
 							<!--留言 按扭-->
-							<FORM id="aria">
-								<BUTTON  type="button" class="btn btn-lg btn-light" onclick="myclike()" data-toggle="collapse" aria-controls="collapseExample" aria-expanded="false">
+							<FORM >
+								<BUTTON  type="button" class="btn btn-lg btn-light"  data-toggle="collapse" aria-controls="collapseExample" aria-expanded="false">
 									<xsl:attribute name="data-target">
 										#<xsl:value-of select="generate-id(@id)"/>
 										<!--#a<xsl:value-of select="id"/>-->
