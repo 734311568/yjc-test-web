@@ -455,7 +455,7 @@
 										
 									</div>
 									<div class="modal-footer">
-										<a href="#" class="btn" data-clipboard-target="#foo" data-clipboard-action="copy" alt="Copy to clipboard" data-dismiss="modal">复制</a>	
+										<a href="#" class="btn" data-clipboard-target="#foo" data-clipboard-action="copy"  data-dismiss="modal">复制</a>	
 									</div>
 								</div>
 							</div>
